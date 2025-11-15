@@ -1,3 +1,10 @@
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -5,7 +12,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 16px;
+  height: 100%;
+  padding-top: 16px;
 }
 
 .upload {
@@ -34,4 +42,11 @@
 .example-text {
   font-size: 18px;
   text-align: left;
+}
+
+.attribution {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: auto;
+  padding: 24px 0 16px 0;
 }

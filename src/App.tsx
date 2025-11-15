@@ -7,6 +7,7 @@ import { parse } from "papaparse";
 import { FileUpload } from "./FileUpload";
 import { Pdf, Csv } from "./types";
 import { CsvExample } from "./ExampleCsv";
+import { Attribution } from "./Attribution";
 
 export default function App() {
   const [pdf, setPdf] = useState<Pdf>();
@@ -48,6 +49,7 @@ export default function App() {
         <CsvExample />
       </FileUpload>
       {pdf && csv && <PlayerPackTable pdf={pdf} csv={csv} />}
+      <Attribution />
     </div>
   );
 }
