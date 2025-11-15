@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/player-pack-generator/static/css/main.e4928fe5.css",
-    "main.js": "/player-pack-generator/static/js/main.c986231a.js",
+    "main.css": "/player-pack-generator/static/css/main.18a1b382.css",
+    "main.js": "/player-pack-generator/static/js/main.01b73bf0.js",
     "index.html": "/player-pack-generator/index.html",
-    "main.e4928fe5.css.map": "/player-pack-generator/static/css/main.e4928fe5.css.map",
-    "main.c986231a.js.map": "/player-pack-generator/static/js/main.c986231a.js.map"
+    "main.18a1b382.css.map": "/player-pack-generator/static/css/main.18a1b382.css.map",
+    "main.01b73bf0.js.map": "/player-pack-generator/static/js/main.01b73bf0.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4928fe5.css",
-    "static/js/main.c986231a.js"
+    "static/css/main.18a1b382.css",
+    "static/js/main.01b73bf0.js"
   ]
 }
