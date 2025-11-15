@@ -1,12 +1,6 @@
-import { PDFDocument } from "pdf-lib";
-import { useCallback, useMemo, type FC } from "react";
-import { Csv } from "./CsvUpload";
-import { Pdf } from "./PdfUpload";
-
-interface PlayerPack {
-  name: string;
-  pages: number[];
-}
+import { useMemo, FC } from "react";
+import { Pdf, Csv } from "./types";
+import { PlayerPackTableRow } from "./PlayerPackTableRow";
 
 /**
  * Identifier present in the player row to indicate that pages are needed.
@@ -14,7 +8,7 @@ interface PlayerPack {
 const SELECT_PAGE_IDENTIFIER = "TRUE";
 
 /**
- * Identifier present in the player row to indicate a page should be appended at the end of the docuent.
+ * Identifier present in the player row to indicate a page should be appended at the end of the document.
  */
 const APPEND_PAGE_IDENTIFIER = "FALSE";
 
@@ -50,37 +44,6 @@ export const PlayerPackTable: FC<{ pdf: Pdf; csv: Csv }> = ({ pdf, csv }) => {
       {playerPacks.map((pack, i) => (
         <PlayerPackTableRow key={i} playerPack={pack} pdf={pdf} />
       ))}
-    </div>
-  );
-};
-
-const PlayerPackTableRow: FC<{ playerPack: PlayerPack; pdf: Pdf }> = ({
-  playerPack: { name, pages },
-  pdf: { file, pdfDocument },
-}) => {
-  const handleDownload = useCallback(async () => {
-    // Create new pdf document to add required pages to.
-    const newDoc = await PDFDocument.create();
-
-    // Copy the relevant pages to the new pdf.
-    const copied = await newDoc.copyPages(pdfDocument, pages);
-    copied.forEach((page) => newDoc.addPage(page));
-
-    // Download the new pdf document.
-    const pdfBytes = await newDoc.save();
-    const blob = new Blob([pdfBytes], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}_player_pack.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }, [file, pdfDocument, name, pages]);
-
-  return (
-    <div className="player-pack">
-      <strong>{name}</strong>- Pages: {pages.map((page) => page + 1).join(", ")}
-      <button onClick={handleDownload}>Download Pack</button>
     </div>
   );
 };
