@@ -1,7 +1,7 @@
 {
-  "name": "react-typescript",
+  "name": "player-pack-generator",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
+  "description": "Player pack generator",
   "homepage": "https://alden12.github.io/player-pack-generator/",
   "license": "MIT",
   "keywords": [
