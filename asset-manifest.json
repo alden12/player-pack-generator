@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/player-pack-generator/static/css/main.e4928fe5.css",
+    "main.js": "/player-pack-generator/static/js/main.c986231a.js",
+    "index.html": "/player-pack-generator/index.html",
+    "main.e4928fe5.css.map": "/player-pack-generator/static/css/main.e4928fe5.css.map",
+    "main.c986231a.js.map": "/player-pack-generator/static/js/main.c986231a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e4928fe5.css",
+    "static/js/main.c986231a.js"
+  ]
+}
