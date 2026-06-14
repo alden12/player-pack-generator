@@ -26,7 +26,7 @@ export const PlayerPackTableRow: FC<{ playerPack: PlayerPack; pdf: Pdf }> = ({
   }, [file, pdfDocument, name, pages]);
 
   return (
-    <div className="player-pack">
+    <div className="flex items-center justify-center gap-2 pt-2">
       <strong>{name}</strong>- Pages: {pages.map((page) => page + 1).join(", ")}
       <button onClick={handleDownload}>Download Pack</button>
     </div>

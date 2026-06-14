@@ -8,8 +8,6 @@ import { Pdf, Csv } from "./types";
 import { CsvExample } from "./ExampleCsv";
 import { Attribution } from "./Attribution";
 
-import "./styles.css";
-
 export default function App() {
   const [pdf, setPdf] = useState<Pdf>();
   const [csv, setCsv] = useState<Csv>();
@@ -44,8 +42,8 @@ export default function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>Player Packs</h1>
+    <div className="flex h-full w-full flex-col items-center px-4 pt-4 text-center">
+      <h1 className="mb-3">Player Packs</h1>
       <h4>Upload PDF & CSV files to generate player packs</h4>
       <FileUpload handleUpload={handlePdfUpload} accept="application/pdf">
         Upload PDF
