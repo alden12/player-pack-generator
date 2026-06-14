@@ -38,7 +38,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   );
 
   return (
-    <div className="upload">
+    <div className="m-2 w-1/2 min-w-[275px] border-b border-slate-700 p-2">
       {children}
       <input type="file" accept={accept} onChange={handleFileChange} />
       {loading && "Loading..."}

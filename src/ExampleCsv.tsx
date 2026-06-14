@@ -5,7 +5,7 @@ export const CsvExample: FC = () => {
 
   return (
     <div onClick={() => setShowExample(!showExample)}>
-      <div className="example-toggle">
+      <div className="cursor-pointer p-4 text-lg opacity-70">
         ⓘ {showExample ? "Hide" : "Show"} Example CSV
       </div>
       {showExample && <ExampleCsvTable />}
@@ -15,8 +15,8 @@ export const CsvExample: FC = () => {
 
 const ExampleCsvTable: FC = () => (
   <>
-    <div className="example-text">
-      <ul>
+    <div className="text-left text-lg">
+      <ul className="list-disc pl-5">
         <li>
           Each column header represents page numbers (comma separated for
           multiple pages) in the PDF.
