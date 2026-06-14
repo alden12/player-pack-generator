@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
@@ -6,4 +6,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   base: "/player-pack-generator/",
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
+  },
 });
