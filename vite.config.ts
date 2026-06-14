@@ -7,10 +7,11 @@ import pkg from "./package.json";
 export default defineConfig({
   base: "/player-pack-generator/",
   plugins: [react()],
-  // Expose the package version to the app (shown in the footer). The deploy
-  // workflow bumps the patch version before building.
+  // Expose the version to the app (shown in the footer). The deploy workflow
+  // sets APP_VERSION (major.minor from package.json + the run number); local
+  // builds fall back to the package.json version.
   define: {
-    __APP_VERSION__: JSON.stringify(pkg.version),
+    __APP_VERSION__: JSON.stringify(process.env.APP_VERSION || pkg.version),
   },
   test: {
     globals: true,

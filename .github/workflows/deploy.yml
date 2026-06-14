@@ -1,16 +1,15 @@
 name: Deploy
 
+# Manual only: trigger a deploy on demand from the Actions tab.
 on:
-  push:
-    branches: [master]
-  # Manual fallback: run a deploy on demand from the Actions tab.
   workflow_dispatch:
 
-# Allow pushing the version bump back (contents) and deploying to Pages.
+# Pages deploy only. No write access to the repo is needed (the version is
+# derived from the run number at build time, nothing is committed back).
 permissions:
-  contents: write
   pages: write
   id-token: write
+  contents: read
 
 # Never run two deployments at once.
 concurrency:
@@ -28,16 +27,18 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # Bump the patch version (in-memory only for now). It is read into the
-      # build below and committed back after a successful deploy.
-      - name: Bump patch version
-        run: npm version patch --no-git-tag-version
+      # Auto-incrementing published version without committing anything:
+      # keep major.minor from package.json and use the run number as the patch.
+      - name: Compute version
+        run: |
+          base=$(node -p "require('./package.json').version.split('.').slice(0, 2).join('.')")
+          echo "APP_VERSION=${base}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
 
       - name: Build
         run: yarn build
@@ -50,13 +51,3 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
-
-      # Only persist the version bump once the deploy has succeeded. [skip ci]
-      # keeps this commit from re-triggering any workflow.
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          version=$(node -p "require('./package.json').version")
-          git commit -am "chore: release v${version} [skip ci]"
-          git push
