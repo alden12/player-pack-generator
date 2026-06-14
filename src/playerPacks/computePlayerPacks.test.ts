@@ -1,5 +1,5 @@
 import { computePlayerPacks } from "./computePlayerPacks";
-import { Csv } from "./types";
+import { Csv } from "../types";
 
 // Header mirrors the in-app example: page numbers per column, comma-separated
 // where a column maps to multiple pages.

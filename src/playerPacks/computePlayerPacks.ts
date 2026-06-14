@@ -1,4 +1,4 @@
-import { Csv, PlayerPack } from "./types";
+import { Csv, PlayerPack } from "../types";
 
 /**
  * Identifier present in the player row to indicate that pages are needed.

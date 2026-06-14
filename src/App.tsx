@@ -1,59 +1,55 @@
-import { useCallback, useState } from "react";
-import { PlayerPackTable } from "./PlayerPackTable";
+import { lazy, Suspense } from "react";
+import { HashRouter, Routes, Route, Navigate, NavLink } from "react-router-dom";
 
-import { PDFDocument } from "pdf-lib";
-import { parse } from "papaparse";
-import { FileUpload } from "./FileUpload";
-import { Pdf, Csv } from "./types";
-import { CsvExample } from "./ExampleCsv";
+import { PlayerPacksTab } from "./playerPacks/PlayerPacksTab";
 import { Attribution } from "./Attribution";
+import { tabs, defaultTabPath } from "./shared/tabs";
+
+// Lazy so the TV Prompt tab's (future) heavy deps stay out of the default bundle.
+const TvPromptTab = lazy(() =>
+  import("./tvPrompt/TvPromptTab").then((m) => ({ default: m.TvPromptTab }))
+);
+
+const sidebarLinkClasses = (isActive: boolean) =>
+  [
+    "rounded-md px-3 py-2 text-left no-underline transition-colors",
+    isActive ? "bg-sky-600 text-white" : "text-slate-300 hover:bg-slate-800",
+  ].join(" ");
 
 export default function App() {
-  const [pdf, setPdf] = useState<Pdf>();
-  const [csv, setCsv] = useState<Csv>();
-
-  const handlePdfUpload = useCallback(async (file?: File) => {
-    if (!file) {
-      setPdf(undefined);
-      return;
-    }
-    const buffer = await file.arrayBuffer();
-    const pdfDocument = await PDFDocument.load(buffer);
-    const pageCount = pdfDocument.getPageCount();
-    setPdf({ file, pdfDocument, pageCount });
-  }, []);
-
-  const handleCsvUpload = useCallback(async (file?: File) => {
-    if (!file) {
-      setCsv(undefined);
-      return;
-    }
-    // papaparse parses a File asynchronously via callbacks, so wrap it in a
-    // promise. Awaiting it lets FileUpload keep its loading state until parsing
-    // finishes and surface parse errors through its try/catch (a `throw` inside
-    // the error callback would otherwise escape uncaught).
-    const data = await new Promise<Csv>((resolve, reject) => {
-      parse<string[]>(file, {
-        complete: ({ data }) => resolve(data),
-        error: (error) => reject(error),
-      });
-    });
-    setCsv(data);
-  }, []);
-
   return (
-    <div className="flex h-full w-full flex-col items-center px-4 pt-4 text-center">
-      <h1 className="mb-3">Player Packs</h1>
-      <h4>Upload PDF & CSV files to generate player packs</h4>
-      <FileUpload handleUpload={handlePdfUpload} accept="application/pdf">
-        Upload PDF
-      </FileUpload>
-      <FileUpload handleUpload={handleCsvUpload} accept="application/csv">
-        Upload CSV
-        <CsvExample />
-      </FileUpload>
-      {pdf && csv && <PlayerPackTable pdf={pdf} csv={csv} />}
-      <Attribution />
-    </div>
+    <HashRouter>
+      <div className="flex h-full w-full">
+        <nav className="flex h-full w-56 shrink-0 flex-col gap-1 border-r border-slate-700 bg-slate-950/40 p-4">
+          <div className="mb-4 px-1 text-left text-lg font-bold">
+            Player Pack Generator
+          </div>
+          {tabs.map((tab) => (
+            <NavLink
+              key={tab.path}
+              to={tab.path}
+              className={({ isActive }) => sidebarLinkClasses(isActive)}
+            >
+              {tab.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <main className="flex h-full flex-1 flex-col items-center overflow-y-auto px-4 pt-4 text-center">
+          <Suspense fallback={<p>Loading...</p>}>
+            <Routes>
+              <Route path="/player-packs" element={<PlayerPacksTab />} />
+              <Route path="/tv-prompt" element={<TvPromptTab />} />
+              <Route
+                path="*"
+                element={<Navigate to={defaultTabPath} replace />}
+              />
+            </Routes>
+          </Suspense>
+
+          <Attribution />
+        </main>
+      </div>
+    </HashRouter>
   );
 }

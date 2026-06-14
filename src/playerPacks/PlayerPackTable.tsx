@@ -1,5 +1,5 @@
 import { useMemo, FC } from "react";
-import { Pdf, Csv } from "./types";
+import { Pdf, Csv } from "../types";
 import { PlayerPackTableRow } from "./PlayerPackTableRow";
 import { computePlayerPacks } from "./computePlayerPacks";
 

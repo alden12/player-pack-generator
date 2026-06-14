@@ -1,6 +1,7 @@
 import { PDFDocument } from "pdf-lib";
 import { useCallback, FC } from "react";
-import { Pdf, PlayerPack } from "./types";
+import { Pdf, PlayerPack } from "../types";
+import { downloadBlob } from "../shared/download";
 
 export const PlayerPackTableRow: FC<{ playerPack: PlayerPack; pdf: Pdf }> = ({
   playerPack: { name, pages },
@@ -17,12 +18,7 @@ export const PlayerPackTableRow: FC<{ playerPack: PlayerPack; pdf: Pdf }> = ({
     // Download the new pdf document.
     const pdfBytes = (await newDoc.save()) as BlobPart;
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}_player_pack.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, `${name}_player_pack.pdf`);
   }, [file, pdfDocument, name, pages]);
 
   return (
