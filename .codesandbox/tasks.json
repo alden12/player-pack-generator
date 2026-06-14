@@ -1,1 +1,21 @@
-{"setupTasks":[{"name":"Install Dependencies","command":"yarn install"}],"tasks":{"start":{"name":"start","command":"yarn start","runAtStart":true,"preview":{"port":3000}},"build":{"name":"build","command":"yarn build","runAtStart":false},"test":{"name":"test","command":"yarn test","runAtStart":false},"eject":{"name":"eject","command":"yarn eject","runAtStart":false}}}
+{
+  "setupTasks": [{ "name": "Install Dependencies", "command": "yarn install" }],
+  "tasks": {
+    "dev": {
+      "name": "dev",
+      "command": "yarn dev",
+      "runAtStart": true,
+      "preview": { "port": 5173 }
+    },
+    "build": {
+      "name": "build",
+      "command": "yarn build",
+      "runAtStart": false
+    },
+    "preview": {
+      "name": "preview",
+      "command": "yarn preview",
+      "runAtStart": false
+    }
+  }
+}
