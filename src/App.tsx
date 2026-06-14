@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
 import { PlayerPackTable } from "./PlayerPackTable";
 
-import "./styles.css";
 import { PDFDocument } from "pdf-lib";
 import { parse } from "papaparse";
 import { FileUpload } from "./FileUpload";
 import { Pdf, Csv } from "./types";
 import { CsvExample } from "./ExampleCsv";
 import { Attribution } from "./Attribution";
+
+import "./styles.css";
 
 export default function App() {
   const [pdf, setPdf] = useState<Pdf>();
@@ -29,12 +30,17 @@ export default function App() {
       setCsv(undefined);
       return;
     }
-    parse(file, {
-      complete: ({ data }) => setCsv(data as Csv),
-      error: (error) => {
-        throw error;
-      },
+    // papaparse parses a File asynchronously via callbacks, so wrap it in a
+    // promise. Awaiting it lets FileUpload keep its loading state until parsing
+    // finishes and surface parse errors through its try/catch (a `throw` inside
+    // the error callback would otherwise escape uncaught).
+    const data = await new Promise<Csv>((resolve, reject) => {
+      parse<string[]>(file, {
+        complete: ({ data }) => resolve(data),
+        error: (error) => reject(error),
+      });
     });
+    setCsv(data);
   }, []);
 
   return (
