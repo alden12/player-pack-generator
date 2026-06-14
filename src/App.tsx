@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pt-4 text-center">
-      <h1>Player Packs</h1>
+      <h1 className="mb-3">Player Packs</h1>
       <h4>Upload PDF & CSV files to generate player packs</h4>
       <FileUpload handleUpload={handlePdfUpload} accept="application/pdf">
         Upload PDF

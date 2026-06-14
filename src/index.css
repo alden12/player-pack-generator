@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Use Google Sans Flex (loaded from Google Fonts in index.html) as the sans
+ * font, so every `font-sans` usage (including the body default) picks it up. */
+@theme {
+  --font-sans: "Google Sans Flex", ui-sans-serif, system-ui, sans-serif;
+}
+
 /*
  * Element defaults previously supplied by Pico. The app uses a fixed dark
  * theme, so colours are baked in here rather than via a dark: variant.

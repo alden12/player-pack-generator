@@ -13,7 +13,8 @@ A small, fully client-side React + TypeScript static web app, deployed to GitHub
 When adding features or dependencies, preserve this guarantee:
 - No network requests with user data. No uploading files to any server or third-party API. No telemetry/analytics that could include file contents.
 - Prefer libraries that run entirely in-browser (e.g. `pdf-lib`, `pdfjs-dist`, `pptxgenjs`, `papaparse`).
-- Load all assets from the app's own bundle, not a CDN. In particular, set the PDF.js worker from a bundled URL (Vite `?url` import), never a remote CDN URL.
+- The hard rule is only about user data: third-party requests that carry no user data are acceptable. For example, the app font (Google Sans Flex) is loaded from the Google Fonts CDN in `index.html`. Prefer bundling where practical, but a CDN font is fine.
+- Still load processing assets from the bundle, not a CDN: set the PDF.js worker from a bundled URL (Vite `?url` import), never a remote CDN URL.
 - Outputs are delivered via a local Blob + object URL download, never an upload.
 - If a change would require sending user data off-device, stop and flag it.
 
