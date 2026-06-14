@@ -28,16 +28,14 @@
     "jsdom": "^25.0.1",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
-    "vitest": "^2.1.8",
-    "gh-pages": "^6.3.0"
+    "vitest": "^2.1.8"
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist"
+    "test:watch": "vitest"
   }
 }
