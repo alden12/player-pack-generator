@@ -11,6 +11,6 @@ export const Attribution: FC = () => (
     >
       MIT License
     </a>
-    .
+    . <span className="version">v{__APP_VERSION__}</span>
   </div>
 );

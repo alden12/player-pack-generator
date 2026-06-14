@@ -1,0 +1,53 @@
+name: Deploy
+
+# Manual only: trigger a deploy on demand from the Actions tab.
+on:
+  workflow_dispatch:
+
+# Pages deploy only. No write access to the repo is needed (the version is
+# derived from the run number at build time, nothing is committed back).
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+# Never run two deployments at once.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # Auto-incrementing published version without committing anything:
+      # keep major.minor from package.json and use the run number as the patch.
+      - name: Compute version
+        run: |
+          base=$(node -p "require('./package.json').version.split('.').slice(0, 2).join('.')")
+          echo "APP_VERSION=${base}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: yarn build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
