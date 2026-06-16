@@ -37,7 +37,7 @@ describe("FileUpload", () => {
     );
   });
 
-  it("surfaces an error when the upload handler rejects", async () => {
+  it("surfaces the handler's error message", async () => {
     const handleUpload = vi.fn(async (file?: File) => {
       if (file) throw new Error("bad csv");
     });
@@ -47,7 +47,7 @@ describe("FileUpload", () => {
     );
     uploadFile(container);
 
-    expect(await screen.findByText(/Error parsing file/)).toBeInTheDocument();
-    expect(screen.getByText(/bad csv/)).toBeInTheDocument();
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("bad csv");
   });
 });
