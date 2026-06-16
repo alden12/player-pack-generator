@@ -17,6 +17,7 @@ export const TvPromptTab = () => {
   const [baseName, setBaseName] = useState("tv_prompt");
   const [format, setFormat] = useState<PromptFormat>("pptx");
   const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string>();
 
   const handleUpload = useCallback(async (file?: File) => {
     if (!file) {
@@ -36,6 +37,7 @@ export const TvPromptTab = () => {
   const handleGenerate = useCallback(async () => {
     if (!quotes) return;
     setGenerating(true);
+    setError(undefined);
     try {
       const filename = `${baseName}_tv_prompt.${format}`;
       if (format === "pptx") {
@@ -43,6 +45,8 @@ export const TvPromptTab = () => {
       } else {
         await generatePdf(quotes, filename);
       }
+    } catch (e) {
+      setError(`Could not generate the prompt: ${e}`);
     } finally {
       setGenerating(false);
     }
@@ -85,9 +89,16 @@ export const TvPromptTab = () => {
               PDF
             </label>
           </div>
+          {format === "pdf" && (
+            <p className="text-sm text-slate-400">
+              The PDF is a flat image. Choose PowerPoint to edit the text after
+              generating.
+            </p>
+          )}
           <button onClick={handleGenerate} disabled={generating}>
             {generating ? "Generating..." : "Generate Prompt"}
           </button>
+          {error && <p className="text-red-400">{error}</p>}
         </div>
       )}
     </>
