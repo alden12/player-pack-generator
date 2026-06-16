@@ -9,7 +9,7 @@ export interface TabDef {
 
 export const tabs: TabDef[] = [
   { path: "/player-packs", label: "Player Packs" },
-  { path: "/tv-prompt", label: "TV Prompt" },
+  { path: "/autocue", label: "Autocue" },
 ];
 
 /** The tab shown at "/" (and any unknown route). */

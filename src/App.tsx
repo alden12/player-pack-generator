@@ -5,10 +5,10 @@ import { PlayerPacksTab } from "./playerPacks/PlayerPacksTab";
 import { Attribution } from "./Attribution";
 import { tabs, defaultTabPath } from "./shared/tabs";
 
-// Lazy so the TV Prompt tab's heavy deps (pdfjs-dist, pptxgenjs) stay out of
+// Lazy so the Autocue tab's heavy deps (pdfjs-dist, pptxgenjs) stay out of
 // the default bundle.
-const TvPromptTab = lazy(() =>
-  import("./tvPrompt/TvPromptTab").then((m) => ({ default: m.TvPromptTab }))
+const AutocueTab = lazy(() =>
+  import("./autocue/AutocueTab").then((m) => ({ default: m.AutocueTab }))
 );
 
 const sidebarLinkClasses = (isActive: boolean) =>
@@ -40,7 +40,7 @@ export default function App() {
           <Suspense fallback={<p>Loading...</p>}>
             <Routes>
               <Route path="/player-packs" element={<PlayerPacksTab />} />
-              <Route path="/tv-prompt" element={<TvPromptTab />} />
+              <Route path="/autocue" element={<AutocueTab />} />
               <Route
                 path="*"
                 element={<Navigate to={defaultTabPath} replace />}

@@ -1,5 +1,5 @@
 /**
- * Canvas-based text measuring and rendering for the TV prompt outputs.
+ * Canvas-based text measuring and rendering for the autocue outputs.
  *
  * Using the browser's own text engine means any script the user's system can
  * display works (CJK, Arabic, etc.) with no embedded fonts, sidestepping
@@ -10,7 +10,7 @@
  */
 
 /** Sans-serif stack; "Arial" matches the face named in the PPTX output. */
-export const PROMPT_FONT_FAMILY = "Arial, Helvetica, sans-serif";
+export const AUTOCUE_FONT_FAMILY = "Arial, Helvetica, sans-serif";
 
 /** Render at 2x the point size so embedded PDF images stay crisp (~144 DPI). */
 const RENDER_SCALE = 2;
@@ -27,10 +27,10 @@ const getMeasureContext = (): CanvasRenderingContext2D => {
   return measureContext;
 };
 
-/** Measure the rendered width of `text` at `fontSize` in the prompt font. */
+/** Measure the rendered width of `text` at `fontSize` in the autocue font. */
 export const measureTextWidth = (text: string, fontSize: number): number => {
   const context = getMeasureContext();
-  context.font = `${fontSize}px ${PROMPT_FONT_FAMILY}`;
+  context.font = `${fontSize}px ${AUTOCUE_FONT_FAMILY}`;
   return context.measureText(text).width;
 };
 
@@ -69,7 +69,7 @@ export const renderQuoteToPng = async ({
   context.fillRect(0, 0, width, height);
 
   context.fillStyle = "white";
-  context.font = `${fontSize}px ${PROMPT_FONT_FAMILY}`;
+  context.font = `${fontSize}px ${AUTOCUE_FONT_FAMILY}`;
   context.textAlign = "center";
   context.textBaseline = "middle";
 

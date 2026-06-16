@@ -24,9 +24,9 @@ const buildPlayerPacksPdf = async () => {
   return doc.save();
 };
 
-// A PDF whose extracted text contains two <bracketed> quotes for the TV Prompt
+// A PDF whose extracted text contains two <bracketed> quotes for the Autocue
 // tab. Each quote is its own text run so it survives text extraction intact.
-const buildTvPromptPdf = async () => {
+const buildAutocuePdf = async () => {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const page = doc.addPage([400, 300]);
@@ -43,4 +43,4 @@ const write = (name, bytes) => {
 };
 
 write("playerPacks.pdf", await buildPlayerPacksPdf());
-write("tvPrompt.pdf", await buildTvPromptPdf());
+write("autocue.pdf", await buildAutocuePdf());
