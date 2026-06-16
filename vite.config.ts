@@ -18,5 +18,7 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
+    // Vitest runs the unit tests under src/; the e2e/ specs are Playwright's.
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
 });
