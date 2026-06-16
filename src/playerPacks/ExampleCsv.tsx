@@ -19,7 +19,7 @@ const ExampleCsvTable: FC = () => (
       <ul className="list-disc pl-5">
         <li>
           Each column header represents page numbers (comma separated for
-          multiple pages) in the PDF.
+          multiple pages) in the PDF. Columns with a blank header are ignored.
         </li>
         <li>
           Each subsequent row represents a player. Use the include value (

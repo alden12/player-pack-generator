@@ -45,6 +45,19 @@ describe("computePlayerPacks", () => {
     expect(alice.pages).toEqual([0, 1, 2]);
   });
 
+  it("ignores columns whose page header is blank", () => {
+    // Column 2 has no page header; its 'y'/'n' cells must not affect the pack.
+    const csv: Csv = [
+      ["", "1", "", "3"],
+      ["Alice", "y", "y", "n"],
+    ];
+
+    const [alice] = computePlayerPacks(csv, 5);
+
+    // Only header columns "1" (include -> 0) and "3" (append -> 2) count.
+    expect(alice.pages).toEqual([0, 2]);
+  });
+
   it("ignores non-numeric header cells", () => {
     const csv: Csv = [
       ["", "1", "oops", "3"],

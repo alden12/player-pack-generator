@@ -54,8 +54,13 @@ export const computePlayerPacks = (
   const [header, ...rows] = csv;
   if (!header) return []; // No header row -> nothing to map.
 
-  // Page numbers in order of appearance in the document (skip the top corner cell).
-  const pages = header.slice(1);
+  // Pair each page-number header with its column index (skipping the top corner
+  // cell), then explicitly drop any column whose header is blank: a column with
+  // no page header maps to no page, so its cell values can't affect a pack.
+  const pageColumns = header
+    .slice(1)
+    .map((pageHeader, index) => ({ pageHeader, columnIndex: index + 1 }))
+    .filter(({ pageHeader }) => pageHeader.trim() !== "");
 
   const matchesInclude = makeMatcher(options.includeValue, options.caseSensitive);
   const matchesAppend = makeMatcher(options.appendValue, options.caseSensitive);
@@ -66,10 +71,14 @@ export const computePlayerPacks = (
       name: row[0],
       // Find which pages should be included and convert them to an array of numbers.
       pages: [
-        // Pages where the row matched the include value (skipping the player name column).
-        ...pages.filter((_, i) => matchesInclude(row[i + 1])),
+        // Pages where the row matched the include value.
+        ...pageColumns
+          .filter(({ columnIndex }) => matchesInclude(row[columnIndex]))
+          .map(({ pageHeader }) => pageHeader),
         // Any pages to append at the end.
-        ...pages.filter((_, i) => matchesAppend(row[i + 1])),
+        ...pageColumns
+          .filter(({ columnIndex }) => matchesAppend(row[columnIndex]))
+          .map(({ pageHeader }) => pageHeader),
       ]
         .flatMap((page) => page.split(",")) // Split any cells with multiple numbers.
         .map((pageNumber) => parseInt(pageNumber, 10) - 1) // Convert to numbers (zero indexed).

@@ -32,10 +32,15 @@ export const PlayerPacksTab = () => {
       setPdf(undefined);
       return;
     }
-    const buffer = await file.arrayBuffer();
-    const pdfDocument = await PDFDocument.load(buffer);
-    const pageCount = pdfDocument.getPageCount();
-    setPdf({ file, pdfDocument, pageCount });
+    let pdfDocument: PDFDocument;
+    try {
+      const buffer = await file.arrayBuffer();
+      pdfDocument = await PDFDocument.load(buffer);
+    } catch {
+      // Surfaced by FileUpload's error UI.
+      throw new Error("Could not read this PDF. Please upload a valid PDF file.");
+    }
+    setPdf({ file, pdfDocument, pageCount: pdfDocument.getPageCount() });
   }, []);
 
   const handleCsvUpload = useCallback(async (file?: File) => {
@@ -50,7 +55,10 @@ export const PlayerPacksTab = () => {
     const data = await new Promise<Csv>((resolve, reject) => {
       parse<string[]>(file, {
         complete: ({ data }) => resolve(data),
-        error: (error) => reject(error),
+        error: () =>
+          reject(
+            new Error("Could not read this CSV. Please upload a valid CSV file.")
+          ),
       });
     });
     setCsv(data);

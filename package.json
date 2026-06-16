@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource-variable/google-sans-flex": "^5.2.3",
     "@types/papaparse": "5.3.16",
+    "jszip": "^3.10.1",
     "papaparse": "5.5.3",
     "pdf-lib": "1.17.1",
     "react": "18.2.0",
