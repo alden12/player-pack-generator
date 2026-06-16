@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
-/* Use Google Sans Flex (loaded from Google Fonts in index.html) as the sans
- * font, so every `font-sans` usage (including the body default) picks it up. */
+/* Use Google Sans Flex (bundled via the @fontsource-variable package, imported
+ * in index.tsx) as the sans font, so every `font-sans` usage (including the
+ * body default) picks it up. */
 @theme {
-  --font-sans: "Google Sans Flex", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Google Sans Flex Variable", ui-sans-serif, system-ui,
+    sans-serif;
 }
 
 /*
