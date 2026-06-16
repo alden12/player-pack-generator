@@ -48,7 +48,8 @@
     @apply rounded-md border border-slate-600 bg-slate-800 px-2 py-1 text-slate-100;
   }
 
-  input[type="checkbox"] {
+  input[type="checkbox"],
+  input[type="radio"] {
     @apply h-4 w-4 cursor-pointer accent-sky-600;
   }
 
