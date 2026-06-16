@@ -19,12 +19,15 @@ const ExampleCsvTable: FC = () => (
       <ul className="list-disc pl-5">
         <li>
           Each column header represents page numbers (comma separated for
-          multiple pages) in the PDF.
+          multiple pages) in the PDF. Columns with a blank header are ignored.
         </li>
         <li>
-          Each subsequent row represents a player. Use "TRUE" to include the
-          corresponding page(s) in that player pack, or "FALSE" to append the
-          page(s) at the end. Leave blank to exclude the page(s) from the pack.
+          Each subsequent row represents a player. Use the include value (
+          <code>y</code> by default) to include the corresponding page(s) in
+          that player pack, or the append value (<code>n</code> by default) to
+          append the page(s) at the end. Any other value (including blank)
+          excludes the page(s). The values and case sensitivity are
+          configurable below once your files are uploaded.
         </li>
       </ul>
     </div>
@@ -41,24 +44,24 @@ const ExampleCsvTable: FC = () => (
       <tbody>
         <tr>
           <td>Alice</td>
-          <td>TRUE</td>
-          <td>FALSE</td>
-          <td>TRUE</td>
+          <td>y</td>
+          <td>n</td>
+          <td>y</td>
           <td></td>
         </tr>
         <tr>
           <td>Bob</td>
           <td></td>
-          <td>TRUE</td>
-          <td>FALSE</td>
-          <td>TRUE</td>
+          <td>y</td>
+          <td>n</td>
+          <td>y</td>
         </tr>
         <tr>
           <td>Charlie</td>
-          <td>TRUE</td>
+          <td>y</td>
           <td></td>
           <td></td>
-          <td>FALSE</td>
+          <td>n</td>
         </tr>
       </tbody>
     </table>
