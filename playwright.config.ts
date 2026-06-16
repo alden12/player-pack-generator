@@ -12,7 +12,11 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? "github" : "list",
+  // In CI, annotate failures inline (github) and also write an HTML report so
+  // it can be uploaded as an artifact when a run fails.
+  reporter: process.env.CI
+    ? [["github"], ["html", { open: "never" }]]
+    : "list",
   use: {
     baseURL: `http://localhost:${PORT}${BASE_PATH}`,
     trace: "on-first-retry",

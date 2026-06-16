@@ -5,7 +5,8 @@ import { PlayerPacksTab } from "./playerPacks/PlayerPacksTab";
 import { Attribution } from "./Attribution";
 import { tabs, defaultTabPath } from "./shared/tabs";
 
-// Lazy so the TV Prompt tab's (future) heavy deps stay out of the default bundle.
+// Lazy so the TV Prompt tab's heavy deps (pdfjs-dist, pptxgenjs) stay out of
+// the default bundle.
 const TvPromptTab = lazy(() =>
   import("./tvPrompt/TvPromptTab").then((m) => ({ default: m.TvPromptTab }))
 );
