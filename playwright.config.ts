@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 // E2E config. We test the production build via `vite preview` (not the dev
-// server) so the bundled PDF.js worker and the lazy TV Prompt chunk behave
+// server) so the bundled PDF.js worker and the lazy Autocue chunk behave
 // exactly as they do in the deployed app. The app is served under the GitHub
 // Pages sub-path, so baseURL includes it and the tests navigate hash routes.
 const PORT = 4173;

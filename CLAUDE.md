@@ -4,7 +4,7 @@ Guidance for working in this repository.
 
 ## What this is
 
-A small, fully client-side React + TypeScript static web app, deployed to GitHub Pages at https://alden12.github.io/player-pack-generator/. It currently hosts one tool, the **Player Packs Generator**, and the roadmap adds a second, the **TV Prompt Generator**. See [ROADMAP.md](ROADMAP.md) for the planned, PR-sequenced work.
+A small, fully client-side React + TypeScript static web app, deployed to GitHub Pages at https://alden12.github.io/player-pack-generator/. It currently hosts one tool, the **Player Packs Generator**, and the roadmap adds a second, the **Autocue Generator**. See [ROADMAP.md](ROADMAP.md) for the planned, PR-sequenced work.
 
 ## CRITICAL: everything must stay 100% client-side
 
@@ -53,6 +53,6 @@ User uploads a PDF and a CSV; the app generates a downloadable per-player PDF su
 
 ## Known gotchas
 
-- `pdf-lib` cannot extract text; the TV Prompt Generator (roadmap PR 7) needs `pdfjs-dist` for that. They serve different purposes and both are kept.
+- `pdf-lib` cannot extract text; the Autocue Generator (roadmap PR 7) needs `pdfjs-dist` for that. They serve different purposes and both are kept.
 - PDF.js requires a Web Worker; its `workerSrc` setup is build-tool-specific (bundle the worker, do not use a CDN - see the client-side rule above).
 - Async CSV parse errors thrown inside papaparse's `error` callback do not reach the `FileUpload` `try/catch` (known bug, addressed in roadmap PR 2).

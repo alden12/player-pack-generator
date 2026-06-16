@@ -5,17 +5,17 @@ import { extractQuotes } from "./extractQuotes";
 import { generatePptx } from "./generatePptx";
 import { generatePdf } from "./generatePdf";
 
-type PromptFormat = "pptx" | "pdf";
+type AutocueFormat = "pptx" | "pdf";
 
 /**
  * Extracts `<...>`-bracketed quotes from an uploaded PDF and generates one
- * slide/page per quote, as a PowerPoint or PDF. Lazy-loaded (see App.tsx) so
- * pdfjs-dist and pptxgenjs stay out of the default bundle.
+ * autocue slide/page per quote, as a PowerPoint or PDF. Lazy-loaded (see
+ * App.tsx) so pdfjs-dist and pptxgenjs stay out of the default bundle.
  */
-export const TvPromptTab = () => {
+export const AutocueTab = () => {
   const [quotes, setQuotes] = useState<string[]>();
-  const [baseName, setBaseName] = useState("tv_prompt");
-  const [format, setFormat] = useState<PromptFormat>("pptx");
+  const [baseName, setBaseName] = useState("autocue");
+  const [format, setFormat] = useState<AutocueFormat>("pptx");
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -31,7 +31,7 @@ export const TvPromptTab = () => {
       throw new Error("No <bracketed> quotes found in this PDF.");
     }
     setQuotes(found);
-    setBaseName(file.name.replace(/\.pdf$/i, "") || "tv_prompt");
+    setBaseName(file.name.replace(/\.pdf$/i, "") || "autocue");
   }, []);
 
   const handleGenerate = useCallback(async () => {
@@ -39,14 +39,14 @@ export const TvPromptTab = () => {
     setGenerating(true);
     setError(undefined);
     try {
-      const filename = `${baseName}_tv_prompt.${format}`;
+      const filename = `${baseName}_autocue.${format}`;
       if (format === "pptx") {
         await generatePptx(quotes, filename);
       } else {
         await generatePdf(quotes, filename);
       }
     } catch (e) {
-      setError(`Could not generate the prompt: ${e}`);
+      setError(`Could not generate the autocue: ${e}`);
     } finally {
       setGenerating(false);
     }
@@ -54,7 +54,7 @@ export const TvPromptTab = () => {
 
   return (
     <>
-      <h1 className="mb-3">TV Prompt</h1>
+      <h1 className="mb-3">Autocue</h1>
       <h4>
         Upload a PDF to generate one slide per &lt;bracketed&gt; quote it
         contains
@@ -96,7 +96,7 @@ export const TvPromptTab = () => {
             </p>
           )}
           <button onClick={handleGenerate} disabled={generating}>
-            {generating ? "Generating..." : "Generate Prompt"}
+            {generating ? "Generating..." : "Generate Autocue"}
           </button>
           {error && <p className="text-red-400">{error}</p>}
         </div>

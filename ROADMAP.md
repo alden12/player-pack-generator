@@ -64,8 +64,8 @@ _Verify:_ Visual parity across both upload widgets, the example CSV table, and p
 Restructure into a tabbed shell so both generators coexist and share code. Behavior-preserving, no new feature deps.
 
 - [x] Add `src/shared/` (move `FileUpload`; extract a reusable `downloadBlob(blob, filename)` from `PlayerPackTableRow`; tab definitions) and `src/playerPacks/` (move the player-pack components + a thin `PlayerPacksTab`).
-- [x] Convert `App.tsx` into a router-based tab host using `react-router-dom` `HashRouter` (GitHub-Pages-safe, no 404 hacks), with shareable per-tab URLs (`/#/player-packs`, `/#/tv-prompt`) and `NavLink` active styling; redirect `/` to Player Packs.
-- [x] Add a lazy-loaded (`React.lazy` + `Suspense`) stub TV Prompt route.
+- [x] Convert `App.tsx` into a router-based tab host using `react-router-dom` `HashRouter` (GitHub-Pages-safe, no 404 hacks), with shareable per-tab URLs (`/#/player-packs`, `/#/autocue`) and `NavLink` active styling; redirect `/` to Player Packs.
+- [x] Add a lazy-loaded (`React.lazy` + `Suspense`) stub Autocue route.
 
 _Verify:_ Player Packs works exactly as before; each tab URL renders (and reloads) correctly; build + tests + CI green.
 
@@ -79,12 +79,12 @@ Let users specify which CSV cell values mean include vs append-at-end.
 
 _Verify:_ Unit tests for custom values; changing inputs re-computes each pack's pages.
 
-### PR 7 - TV Prompt Generator
+### PR 7 - Autocue Generator
 
 New tab that extracts `<...>`-bracketed quotes from a PDF and emits one quote per slide/page.
 
 - [x] Add `pdfjs-dist` for text extraction only (`pdf-lib` cannot extract text - an addition, not a replacement). Add `pptxgenjs` for in-browser PPTX. Reuse `pdf-lib` for the PDF output.
-- [x] `src/tvPrompt/`: `pdfWorker.ts` (isolates the Vite `?url` worker setup), `extractText.ts` (concatenate + whitespace-normalize all pages so brackets spanning lines/pages survive), `extractQuotes.ts` (pure `/<([^<>]*)>/g` parser; no nested brackets), `generatePptx.ts`, `generatePdf.ts`, `canvasText.ts`, `TvPromptTab.tsx` (upload + format toggle, PPTX default | PDF).
+- [x] `src/autocue/`: `pdfWorker.ts` (isolates the Vite `?url` worker setup), `extractText.ts` (concatenate + whitespace-normalize all pages so brackets spanning lines/pages survive), `extractQuotes.ts` (pure `/<([^<>]*)>/g` parser; no nested brackets), `generatePptx.ts`, `generatePdf.ts`, `canvasText.ts`, `AutocueTab.tsx` (upload + format toggle, PPTX default | PDF).
 - [x] Shared `fitFontSize.ts` autoscale (largest size whose word-wrapped text fills the box), used by both outputs.
 - [x] Output: landscape, black background, white text scaled to fill. Text is measured and rendered with the **HTML canvas** (the browser's own fonts) so any script the system can display works - this replaced the original `pdf-lib` Helvetica plan, whose WinAnsi-only standard fonts crashed on non-Latin characters (e.g. CJK). The **PPTX** emits real editable Arial text (viewer-supplied, nothing embedded); the **PDF** embeds each slide as a canvas-rendered PNG image (any language, but a flat non-editable copy - the PPTX is the editable format, surfaced in the UI).
 - [x] Keep the tab lazy-loaded so `pdfjs-dist`/`pptxgenjs` are code-split out of the default bundle.
@@ -96,7 +96,7 @@ _Verify:_ Unit tests for `extractQuotes` and `fitFontSize`; manual generate of b
 Cover both generators end to end.
 
 - [x] Add Playwright + small sample PDF/CSV fixtures. The binary PDF fixtures are committed and regenerable via `e2e/fixtures/generateFixtures.mjs` (uses the app's own `pdf-lib`).
-- [x] Player Packs (upload -> a row appears per player -> per-pack and download-all-zip downloads trigger with the right filenames) and TV Prompt (upload bracketed PDF -> "Found N quotes" -> PPTX and PDF downloads trigger). Tests run against the production build via `vite preview` so the bundled PDF.js worker and lazy chunk behave as deployed; Vitest is scoped to `src/` so it ignores the Playwright specs.
+- [x] Player Packs (upload -> a row appears per player -> per-pack and download-all-zip downloads trigger with the right filenames) and Autocue (upload bracketed PDF -> "Found N quotes" -> PPTX and PDF downloads trigger). Tests run against the production build via `vite preview` so the bundled PDF.js worker and lazy chunk behave as deployed; Vitest is scoped to `src/` so it ignores the Playwright specs.
 - [x] Wire the Playwright run into CI as a separate `e2e` job (installs Chromium, runs `yarn e2e`, uploads the report artifact).
 
 _Verify:_ `yarn e2e` passes locally and in CI.

@@ -1,5 +1,5 @@
 /**
- * Shared 16:9 slide geometry for both prompt outputs, in points.
+ * Shared 16:9 slide geometry for both autocue outputs, in points.
  *
  * 960 x 540 pt is exactly PowerPoint's 16:9 widescreen size (13.333 x 7.5 in at
  * 72 pt/in), so the PPTX and PDF outputs share one coordinate system: the PDF
@@ -15,7 +15,7 @@ export const SLIDE = {
 /** Points per inch, for converting the point geometry to PPTX inches. */
 export const POINTS_PER_INCH = 72;
 
-/** Largest / smallest prompt font sizes (points) the autoscaler will choose. */
+/** Largest / smallest autocue font sizes (points) the autoscaler will choose. */
 export const MAX_FONT_SIZE = 200;
 export const MIN_FONT_SIZE = 12;
 
