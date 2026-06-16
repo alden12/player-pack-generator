@@ -44,6 +44,14 @@
       file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-slate-700 file:px-3 file:py-2 file:text-slate-100 hover:file:bg-slate-600;
   }
 
+  input[type="text"] {
+    @apply rounded-md border border-slate-600 bg-slate-800 px-2 py-1 text-slate-100;
+  }
+
+  input[type="checkbox"] {
+    @apply h-4 w-4 cursor-pointer accent-sky-600;
+  }
+
   table {
     @apply mx-auto my-2 border-collapse;
   }
