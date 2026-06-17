@@ -45,6 +45,24 @@ describe("computePlayerPacks", () => {
     expect(alice.pages).toEqual([0, 1, 2]);
   });
 
+  it("reports selected pages outside the PDF range as outOfRangePages", () => {
+    const csv: Csv = [HEADER, ["Alice", "y", "y", "y", "y"]];
+
+    // Only 3 pages exist, so the selected pages 4, 5 and 6 are out of range.
+    const [alice] = computePlayerPacks(csv, 3);
+
+    expect(alice.pages).toEqual([0, 1, 2]);
+    expect(alice.outOfRangePages).toEqual([4, 5, 6]);
+  });
+
+  it("has no outOfRangePages when every selected page is in range", () => {
+    const csv: Csv = [HEADER, ["Alice", "y", "n", "", ""]];
+
+    const [alice] = computePlayerPacks(csv, 6);
+
+    expect(alice.outOfRangePages).toEqual([]);
+  });
+
   it("ignores columns whose page header is blank", () => {
     // Column 2 has no page header; its 'y'/'n' cells must not affect the pack.
     const csv: Csv = [
