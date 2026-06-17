@@ -4,8 +4,8 @@
  * in index.tsx) as the sans font, so every `font-sans` usage (including the
  * body default) picks it up. */
 @theme {
-  --font-sans: "Google Sans Flex Variable", ui-sans-serif, system-ui,
-    sans-serif;
+  --font-sans:
+    "Google Sans Flex Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 /*

@@ -56,8 +56,8 @@ export const AutocueTab = () => {
     <>
       <h1 className="mb-3">Autocue</h1>
       <h4>
-        Upload a PDF to generate one slide per &lt;bracketed&gt; quote it
-        contains
+        Upload a PDF to generate one slide per{" "}
+        <strong>&lt;bracketed&gt;</strong> quote it contains
       </h4>
       <FileUpload handleUpload={handleUpload} accept="application/pdf">
         Upload PDF
