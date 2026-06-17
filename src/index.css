@@ -28,7 +28,7 @@
   }
 
   h4 {
-    @apply text-base font-normal text-slate-300;
+    @apply text-base font-normal text-violet-300;
   }
 
   a {
