@@ -67,10 +67,10 @@ export const computePlayerPacks = (
 
   return rows
     .filter((row) => Boolean(row[0])) // Remove any empty rows (without player name).
-    .map((row) => ({
-      name: row[0],
-      // Find which pages should be included and convert them to an array of numbers.
-      pages: [
+    .map((row) => {
+      // The page numbers this player selected (include first, then append),
+      // as written in the CSV (1-indexed). Non-numeric cells are ignored.
+      const selected = [
         // Pages where the row matched the include value.
         ...pageColumns
           .filter(({ columnIndex }) => matchesInclude(row[columnIndex]))
@@ -81,7 +81,20 @@ export const computePlayerPacks = (
           .map(({ pageHeader }) => pageHeader),
       ]
         .flatMap((page) => page.split(",")) // Split any cells with multiple numbers.
-        .map((pageNumber) => parseInt(pageNumber, 10) - 1) // Convert to numbers (zero indexed).
-        .filter((i) => i >= 0 && i < pageCount), // Remove pages outside the PDF range.
-    }));
+        .map((pageNumber) => parseInt(pageNumber, 10))
+        .filter((pageNumber) => !Number.isNaN(pageNumber));
+
+      const inRange = (pageNumber: number) =>
+        pageNumber >= 1 && pageNumber <= pageCount;
+
+      return {
+        name: row[0],
+        // Convert the in-range selections to zero-indexed pages, in order.
+        pages: selected.filter(inRange).map((pageNumber) => pageNumber - 1),
+        // Surface any selections outside the PDF's range (deduped, 1-indexed).
+        outOfRangePages: [
+          ...new Set(selected.filter((pageNumber) => !inRange(pageNumber))),
+        ],
+      };
+    });
 };
