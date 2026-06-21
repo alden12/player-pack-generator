@@ -8,7 +8,7 @@ import { tabs, defaultTabPath } from "./shared/tabs";
 // Lazy so the Autocue tab's heavy deps (pdfjs-dist, pptxgenjs) stay out of
 // the default bundle.
 const AutocueTab = lazy(() =>
-  import("./autocue/AutocueTab").then((m) => ({ default: m.AutocueTab }))
+  import("./autocue/AutocueTab").then((m) => ({ default: m.AutocueTab })),
 );
 
 const sidebarLinkClasses = (isActive: boolean) =>
@@ -22,8 +22,9 @@ export default function App() {
     <HashRouter>
       <div className="flex h-full w-full">
         <nav className="flex h-full w-56 shrink-0 flex-col gap-1 border-r border-slate-700 bg-slate-950/40 p-4">
-          <div className="mb-4 px-1 text-left text-lg font-bold">
-            Player Pack Generator
+          <div className="mb-4 px-1 text-left text-lg font-bold flex items-center gap-4">
+            <div className="text-4xl">⚽</div>
+            <div>Player Pack Generator</div>
           </div>
           {tabs.map((tab) => (
             <NavLink

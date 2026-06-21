@@ -4,8 +4,8 @@
  * in index.tsx) as the sans font, so every `font-sans` usage (including the
  * body default) picks it up. */
 @theme {
-  --font-sans: "Google Sans Flex Variable", ui-sans-serif, system-ui,
-    sans-serif;
+  --font-sans:
+    "Google Sans Flex Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 /*
@@ -28,7 +28,7 @@
   }
 
   h4 {
-    @apply text-base font-normal text-slate-300;
+    @apply text-base font-normal text-violet-300;
   }
 
   a {
